@@ -44,6 +44,26 @@ const app = (() => {
       renderLoginState();
     });
 
+    document.getElementById('runtime-config-form')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const runtimeConfig = {
+        supabaseUrl: String(form.get('supabaseUrl') || '').trim(),
+        supabaseAnonKey: String(form.get('supabaseAnonKey') || '').trim(),
+        sessionDurationMinutes: Number(form.get('sessionDurationMinutes') || 480),
+        passwordVerificationFunction: String(form.get('passwordVerificationFunction') || 'verify-password').trim() || 'verify-password'
+      };
+
+      localStorage.setItem('handball-runtime-config-v1', JSON.stringify(runtimeConfig));
+      const message = document.getElementById('runtime-config-message');
+      if (message) {
+        message.textContent = 'Gespeichert. Die Seite wird neu geladen …';
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
+    });
+
     document.getElementById('team-form')?.addEventListener('submit', (event) => {
       event.preventDefault();
       const form = new FormData(event.currentTarget);
@@ -408,8 +428,16 @@ const app = (() => {
     const status = auth.isAuthenticated() ? 'Aktiv' : 'Abgelaufen';
     const authStatus = document.getElementById('auth-status');
     const configUrl = document.getElementById('config-url');
+    const configSupabaseUrl = document.getElementById('config-supabase-url');
+    const configSupabaseAnonKey = document.getElementById('config-supabase-anon-key');
+    const configSessionDuration = document.getElementById('config-session-duration');
+    const configPasswordFunction = document.getElementById('config-password-function');
     if (authStatus) authStatus.value = status;
     if (configUrl) configUrl.value = window.HANDBALL_CONFIG.supabaseUrl || 'Noch nicht konfiguriert';
+    if (configSupabaseUrl) configSupabaseUrl.value = window.HANDBALL_CONFIG.supabaseUrl || '';
+    if (configSupabaseAnonKey) configSupabaseAnonKey.value = window.HANDBALL_CONFIG.supabaseAnonKey || '';
+    if (configSessionDuration) configSessionDuration.value = window.HANDBALL_CONFIG.sessionDurationMinutes || 480;
+    if (configPasswordFunction) configPasswordFunction.value = window.HANDBALL_CONFIG.passwordVerificationFunction || 'verify-password';
   }
 
   function renderFieldMarker(x, y) {

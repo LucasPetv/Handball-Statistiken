@@ -51,7 +51,9 @@ Das Projekt ist als statische Single-Page-Application (SPA) gebaut und kann übe
 4. In Supabase unter `Project Settings → Secrets` das Passwort-Secret setzen:
    - `APP_PASSWORD`
 5. Optional: `APP_SESSION_TTL_MINUTES` setzen.
-6. `supabaseUrl` und `supabaseAnonKey` in `js/config.js` eintragen.
+6. `supabaseUrl` und `supabaseAnonKey` setzen:
+   - entweder direkt in `js/config.js`
+   - oder in der App unter **Einstellungen** als Runtime-Konfiguration speichern (persistiert in `localStorage` des Browsers)
 
 ### Beispielkonfiguration
 
@@ -129,7 +131,7 @@ Danach `http://localhost:8000` im Browser öffnen.
 
 ## Hinweise
 
-Diese Anwendung ist bewusst als statische SPA aufgebaut. Die echte Datenspeicherung und die sichere Passwortprüfung laufen in Supabase. Dafür müssen die Supabase-Umgebungsvariablen in `js/config.js` und die Secret-Variablen in Supabase gesetzt werden, bevor die App produktiv genutzt werden kann.
+Diese Anwendung ist bewusst als statische SPA aufgebaut. Die echte Datenspeicherung und die sichere Passwortprüfung laufen in Supabase. Dafür müssen die Supabase-Werte (`supabaseUrl`, `supabaseAnonKey`) sowie die Secret-Variablen in Supabase gesetzt werden, bevor die App produktiv genutzt werden kann.
 
 ## License
 
